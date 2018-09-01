@@ -1,3 +1,4 @@
+#include <Wire.h>
 #include <LiquidCrystal_I2C.h>
 
 int LCD_SDA_PIN = 4;
@@ -13,7 +14,7 @@ int SENSOR_MAX = 628;
 int MOISTURE_THRESHOLD = SENSOR_MIN + (SENSOR_MAX - SENSOR_MIN) * MOISTURE_RATIO;
 
 unsigned long turnPumpOffAt = 0;
-unsigned long lastPumpTime = 0;
+int numWaterings = 0;
 
 void setup() {
   Serial.begin(9600);
@@ -35,7 +36,6 @@ void loop() {
   // PUMP_RUN_MS ms.
   if (!pumpIsOn && runPump) {
     turnPumpOffAt = millis() + PUMP_RUN_MS;
-    lastPumpTime = turnPumpOffAt;
   }
   
   if (runPump) {
@@ -44,42 +44,43 @@ void loop() {
   } else {
     Serial.println("turning off pump");
     digitalWrite(PUMP_PIN, HIGH);
+    if (turnPumpOffAt > 0) {
+      numWaterings += 1;
+    }
     turnPumpOffAt = 0;
   }
 
-  display(val, pumpIsOn, lastPumpTime, turnPumpOffAt);
+  lcd.clear();
+  display(val, pumpIsOn, numWaterings, turnPumpOffAt);
   delay(100);
 }
 
-void display(int val, bool pumpIsOn, unsigned int lastPumpTime, unsigned int turnPumpOffAt) {
-  lcd.clear();
+void display(int val, bool pumpIsOn, int numWaterings, unsigned long turnPumpOffAt) {
   lcd.setCursor(0, 0);
-  lcd.print("sensor reading:");
-  lcd.setCursor(16, 0);
+  lcd.print("sensor:");
+  lcd.setCursor(8, 0);
   lcd.print(val);
 
   lcd.setCursor(0, 1);
-  lcd.print("pump is on?");
-  lcd.setCursor(12, 1);
-  if (pumpIsOn) {
-    lcd.print("yes");
-  } else {
-    lcd.print("no");
-  }
-
+  lcd.print("waters at:");
+  lcd.setCursor(11, 1);
+  lcd.print(MOISTURE_THRESHOLD);
+  
   lcd.setCursor(0, 2);
   if (!pumpIsOn) {
-    lcd.print("last on:");
-    lcd.setCursor(9, 2);
-    lcd.print(lastPumpTime);
+    lcd.print("num waterings:");
+    lcd.setCursor(15, 2);
+    lcd.print(numWaterings);
   } else {
     lcd.print("off at:");
     lcd.setCursor(8, 2);
     lcd.print(turnPumpOffAt);
   }
 
-  lcd.setCursor(0, 4);
-  lcd.print("millis:");
-  lcd.setCursor(8, 4);
-  lcd.print(millis());
+  if (pumpIsOn) {
+    lcd.setCursor(0, 4);
+    lcd.print("millis:");
+    lcd.setCursor(8, 4);
+    lcd.print(millis());
+  }
 }
