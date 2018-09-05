@@ -78,9 +78,9 @@ void display(int val, bool pumpIsOn, int numWaterings, unsigned long turnPumpOff
   }
 
   if (pumpIsOn) {
-    lcd.setCursor(0, 4);
+    lcd.setCursor(0, 3);
     lcd.print("millis:");
-    lcd.setCursor(8, 4);
+    lcd.setCursor(8, 3);
     lcd.print(millis());
   }
 }
