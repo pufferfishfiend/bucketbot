@@ -1,0 +1,2 @@
+class AirTemperatureSensor < ApplicationRecord
+end

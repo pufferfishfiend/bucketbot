@@ -1,9 +1,7 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  key: MyString
-  value: MyString
+  name: MyString
 
 two:
-  key: MyString
-  value: MyString
+  name: MyString

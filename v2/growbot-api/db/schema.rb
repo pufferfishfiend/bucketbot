@@ -10,36 +10,38 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_08_21_205559) do
+ActiveRecord::Schema.define(version: 2018_09_08_230001) do
 
-  create_table "api_keys", force: :cascade do |t|
+  create_table "air_temperature_sensors", force: :cascade do |t|
+    t.string "value"
+    t.integer "grow_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["grow_id"], name: "index_air_temperature_sensors_on_grow_id"
+  end
+
+  create_table "grows", force: :cascade do |t|
+    t.string "name"
     t.integer "user_id"
-    t.string "key"
+    t.string "grow_key"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-  end
-
-  create_table "sensor_readings", force: :cascade do |t|
-    t.string "type"
-    t.string "value"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "settings", force: :cascade do |t|
-    t.string "key"
-    t.string "value"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_grows_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
-    t.string "email", default: "", null: false
-    t.string "encrypted_password", default: "", null: false
+    t.string "email"
+    t.string "password_digest"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["email"], name: "index_users_on_email", unique: true
-    t.index [nil], name: "index_users_on_reset_password_token", unique: true
+  end
+
+  create_table "water_temperature_sensors", force: :cascade do |t|
+    t.string "value"
+    t.integer "grow_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["grow_id"], name: "index_water_temperature_sensors_on_grow_id"
   end
 
 end

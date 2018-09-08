@@ -1,10 +1,12 @@
 class ApplicationController < ActionController::API
-  # before_action :validate_api_key
+  before_action :authenticate_request
 
-  def validate_api_key
-    api_key = params[:key]
-    if (!ApiKey.validate(api_key))
-      render json: 'Invalid API key provided', status: :unauthorized
-    end
+  attr_reader :current_user
+
+  private
+
+  def authenticate_request
+    @current_user = AuthorizeApiRequest.call(request.headers).result
+    render(json: { error: 'not authorized '}, status: 401) unless @current_user
   end
 end

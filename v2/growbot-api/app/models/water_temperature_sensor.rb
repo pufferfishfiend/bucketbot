@@ -1,0 +1,2 @@
+class WaterTemperatureSensor < ApplicationRecord
+end
