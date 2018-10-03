@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_09_08_230001) do
+ActiveRecord::Schema.define(version: 2018_10_03_015441) do
 
   create_table "air_temperature_sensors", force: :cascade do |t|
     t.string "value"
@@ -20,6 +20,30 @@ ActiveRecord::Schema.define(version: 2018_09_08_230001) do
     t.index ["grow_id"], name: "index_air_temperature_sensors_on_grow_id"
   end
 
+  create_table "ambient_light_bed_sensors", force: :cascade do |t|
+    t.string "value"
+    t.integer "grow_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["grow_id"], name: "index_ambient_light_bed_sensors_on_grow_id"
+  end
+
+  create_table "ambient_light_canopy_sensors", force: :cascade do |t|
+    t.string "value"
+    t.integer "grow_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["grow_id"], name: "index_ambient_light_canopy_sensors_on_grow_id"
+  end
+
+  create_table "ec_sensors", force: :cascade do |t|
+    t.string "value"
+    t.integer "grow_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["grow_id"], name: "index_ec_sensors_on_grow_id"
+  end
+
   create_table "grows", force: :cascade do |t|
     t.string "name"
     t.integer "user_id"
@@ -27,6 +51,39 @@ ActiveRecord::Schema.define(version: 2018_09_08_230001) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_grows_on_user_id"
+  end
+
+  create_table "humidity_sensors", force: :cascade do |t|
+    t.string "value"
+    t.integer "grow_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["grow_id"], name: "index_humidity_sensors_on_grow_id"
+  end
+
+  create_table "light_schedules", force: :cascade do |t|
+    t.integer "grow_id"
+    t.integer "lights_on"
+    t.integer "lights_off"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["grow_id"], name: "index_light_schedules_on_grow_id"
+  end
+
+  create_table "ph_sensors", force: :cascade do |t|
+    t.string "value"
+    t.integer "grow_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["grow_id"], name: "index_ph_sensors_on_grow_id"
+  end
+
+  create_table "timelapse_photos", force: :cascade do |t|
+    t.string "file"
+    t.integer "grow_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["grow_id"], name: "index_timelapse_photos_on_grow_id"
   end
 
   create_table "users", force: :cascade do |t|
