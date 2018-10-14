@@ -1,14 +1,14 @@
-import { Component } from 'react';
+import React from 'react';
 
-class Form extends Component {
-  render() {
-    return (<div>
-      <form onSubmit={this.props.onSubmit}>
-        {this.props.children}
-        <button>{this.props.buttonText}</button>
+const Form = ({ buttonText, children, onSubmit }) => {
+  return (
+    <div>
+      <form onSubmit={onSubmit}>
+        {children}
+        <button type="submit">{buttonText}</button>
       </form>
-    </div>)
-  }
+    </div>
+  );
 };
 
 export default Form;
